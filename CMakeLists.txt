@@ -395,6 +395,48 @@ ExternalProject_Add(libsodium
   make install
 )
 
+ExternalProject_Add(double-conversion
+  DEPENDS
+  URL
+  https://github.com/google/double-conversion/archive/refs/tags/v3.1.4.tar.gz
+  URL_HASH
+  MD5=9851753f352c7079c8c8fd07c63dd1e7
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+)
+
+ExternalProject_Add(fmt
+  DEPENDS
+  URL
+  https://github.com/fmtlib/fmt/archive/refs/tags/8.0.1.tar.gz
+  URL_HASH
+  MD5=7d5af964c6633ef90cd6a47be3afe6a0
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+  -DFMT_TEST=OFF
+  -DFMT_DOC=OFF
+)
+
 add_executable(${PROJECT_NAME}
   src/main.cpp
 )
