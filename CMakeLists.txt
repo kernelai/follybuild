@@ -65,10 +65,37 @@ ExternalProject_Add(gflags
 set(GFLAGS_LIBRARIE ${INSTALL_LIBDIR}/libgflags.a)
 set(GFLAGS_INCLUDE_DIR ${INSTALL_INCLUDEDIR})
 
+ExternalProject_Add(unwind
+  DEPENDS
+  URL
+  http://download.savannah.nongnu.org/releases/libunwind/libunwind-1.6.2.tar.gz
+  URL_HASH
+  MD5=f625b6a98ac1976116c71708a73dc44a 
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CONFIGURE_COMMAND
+  <SOURCE_DIR>/configure --prefix=${STAGED_INSTALL_PREFIX}
+  BUILD_IN_SOURCE
+  1
+  BUILD_COMMAND
+  make -j8
+  INSTALL_COMMAND
+  make install
+)
+
 ExternalProject_Add(glog
   DEPENDS
   gflags
   gtest
+  unwind
   URL
   https://github.com/google/glog/archive/refs/tags/v0.6.0.tar.gz
   URL_HASH
@@ -259,31 +286,6 @@ ExternalProject_Add(jemalloc
 set(JEMALLOC_LIBRARIE ${INSTALL_LIBDIR}/libjemalloc.a)
 set(JEMALLOC_INCLUDE_DIR ${INSTALL_INCLUDEDIR})
 
-ExternalProject_Add(unwind
-  DEPENDS
-  URL
-  http://download.savannah.nongnu.org/releases/libunwind/libunwind-1.6.2.tar.gz
-  URL_HASH
-  MD5=f625b6a98ac1976116c71708a73dc44a 
-  DOWNLOAD_NO_PROGRESS
-  1
-  UPDATE_COMMAND
-  ""
-  LOG_CONFIGURE
-  1
-  LOG_BUILD
-  1
-  LOG_INSTALL
-  1
-  CONFIGURE_COMMAND
-  <SOURCE_DIR>/configure --prefix=${STAGED_INSTALL_PREFIX}
-  BUILD_IN_SOURCE
-  1
-  BUILD_COMMAND
-  make -j8
-  INSTALL_COMMAND
-  make install
-)
 
 ExternalProject_Add(boost
   DEPENDS
@@ -435,6 +437,65 @@ ExternalProject_Add(fmt
   -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
   -DFMT_TEST=OFF
   -DFMT_DOC=OFF
+)
+
+ExternalProject_Add(liburing
+  DEPENDS
+  URL
+  https://github.com/axboe/liburing/archive/refs/tags/liburing-2.3.tar.gz
+  URL_HASH
+  # MD5=7d5af964c6633ef90cd6a47be3afe6a0
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CONFIGURE_COMMAND
+  <SOURCE_DIR>/configure --prefix=${STAGED_INSTALL_PREFIX}
+  BUILD_IN_SOURCE
+  1
+  BUILD_COMMAND
+  make -j8
+  INSTALL_COMMAND
+  make install
+)
+
+
+ExternalProject_Add(folly
+  DEPENDS
+  gflags
+  glog
+  gtest
+  boost
+  libevent
+  libsodium
+  double-conversion
+  fmt
+  lz4
+  snappy
+  zstd
+  liburing
+  URL
+  https://github.com/facebook/folly/releases/download/v2023.02.27.00/folly-v2023.02.27.00.tar.gz
+  URL_HASH
+  # MD5=7d5af964c6633ef90cd6a47be3afe6a0
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
 )
 
 add_executable(${PROJECT_NAME}
