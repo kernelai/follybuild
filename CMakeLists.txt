@@ -342,6 +342,33 @@ ExternalProject_Add(boost
   <SOURCE_DIR>/b2 install
 )
 
+ExternalProject_Add(litevent
+  DEPENDS
+  URL
+  https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+  URL_HASH
+  # MD5=9b8aa094c4e5765dabf4da391f00d15c
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CMAKE_ARGS
+  -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+  -DEVENT__DISABLE_TESTS=ON
+  -DEVENT__DISABLE_BENCHMARK=ON
+  -DEVENT__DISABLE_SAMPLES=ON
+  -DEVENT__DISABLE_REGRESS=ON
+  -DEVENT__BUILD_SHARED_LIBRARIES=ON
+  BUILD_ALWAYS
+  1
+)
+
 add_executable(${PROJECT_NAME}
   src/main.cpp
 )
