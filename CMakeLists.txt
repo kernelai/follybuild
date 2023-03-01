@@ -281,10 +281,65 @@ ExternalProject_Add(unwind
   1
   BUILD_COMMAND
   make -j8
+  INSTALL_COMMAND
+  make install
+)
+
+ExternalProject_Add(boost
+  DEPENDS
+  URL
+  https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
+  URL_HASH
+  MD5=c2f6428ac52b0e5a3c9b2e1d8cc832b5
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CONFIGURE_COMMAND
+  <SOURCE_DIR>/bootstrap.sh --prefix=${STAGED_INSTALL_PREFIX}
+  BUILD_IN_SOURCE
+  1
+  BUILD_COMMAND
+  <SOURCE_DIR>/b2
+  --with-atomic
+  --with-chrono
+  --with-container
+  --with-context
+  --with-contract
+  --with-coroutine
+  --with-date_time
+  --with-exception
+  --with-fiber
+  --with-filesystem
+  --with-graph
+  --with-graph_parallel
+  --with-iostreams
+  --with-locale
+  --with-log
+  --with-math
+  --with-mpi
+  --with-program_options
+  --with-python
+  --with-random
+  --with-regex
+  --with-serialization
+  --with-stacktrace
+  --with-system
+  --with-test
+  --with-thread
+  --with-timer
+  --with-type_erasure
+  --with-wave
   BUILD_ALWAYS
   1
   INSTALL_COMMAND
-  make install
+  <SOURCE_DIR>/b2 install
 )
 
 add_executable(${PROJECT_NAME}
