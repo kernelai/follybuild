@@ -342,12 +342,12 @@ ExternalProject_Add(boost
   <SOURCE_DIR>/b2 install
 )
 
-ExternalProject_Add(litevent
+ExternalProject_Add(libevent
   DEPENDS
   URL
   https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
   URL_HASH
-  # MD5=9b8aa094c4e5765dabf4da391f00d15c
+  MD5=b5333f021f880fe76490d8a799cd79f4
   DOWNLOAD_NO_PROGRESS
   1
   UPDATE_COMMAND
@@ -367,6 +367,32 @@ ExternalProject_Add(litevent
   -DEVENT__BUILD_SHARED_LIBRARIES=ON
   BUILD_ALWAYS
   1
+)
+
+ExternalProject_Add(libsodium
+  DEPENDS
+  URL
+  https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz
+  URL_HASH
+  MD5=0f71e2680187a1558b5461e6879342c5
+  DOWNLOAD_NO_PROGRESS
+  1
+  UPDATE_COMMAND
+  ""
+  LOG_CONFIGURE
+  1
+  LOG_BUILD
+  1
+  LOG_INSTALL
+  1
+  CONFIGURE_COMMAND
+  <SOURCE_DIR>/configure --prefix=${STAGED_INSTALL_PREFIX}
+  BUILD_IN_SOURCE
+  1
+  BUILD_COMMAND
+  make -j8
+  INSTALL_COMMAND
+  make install
 )
 
 add_executable(${PROJECT_NAME}
